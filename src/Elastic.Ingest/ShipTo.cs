@@ -62,7 +62,7 @@ namespace Elastic.Ingest
 			ConnectionPool = ConnectionPoolType.Cloud;
 		}
 
-		internal IConnectionPool? CreateConnectionPool()
+		public IConnectionPool? CreateConnectionPool()
 		{
 			switch (ConnectionPool)
 			{
