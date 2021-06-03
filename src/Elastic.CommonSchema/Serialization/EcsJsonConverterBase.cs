@@ -19,7 +19,7 @@ namespace Elastic.CommonSchema.Serialization
 				return true;
 			}
 
-			set = JsonConfiguration.DateTimeOffsetConverter.Read(ref reader, typeof(DateTimeOffset), JsonConfiguration.SerializerOptions);
+			set = JsonSerializer.Deserialize<DateTimeOffset?>(ref reader, JsonConfiguration.SerializerOptions);
 			return true;
 		}
 

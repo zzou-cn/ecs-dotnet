@@ -48,7 +48,7 @@ namespace Elastic.CommonSchema.Serialization
 		{
 			writer.WritePropertyName("@timestamp");
 			if (value.Timestamp.HasValue)
-				JsonConfiguration.DateTimeOffsetConverter.Write(writer, value.Timestamp.Value, JsonConfiguration.SerializerOptions);
+				JsonSerializer.Serialize(writer, value.Timestamp.Value, JsonConfiguration.SerializerOptions);
 			else writer.WriteNullValue();
 		}
 	}
