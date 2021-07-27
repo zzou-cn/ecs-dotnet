@@ -10,17 +10,6 @@ namespace Elastic.Ingest
 {
 	public class ShipTo
 	{
-		public IEnumerable<Uri>? NodeUris { get; }
-		public ConnectionPoolType? ConnectionPool{ get; }
-		public string? CloudId { get; }
-
-		public string? ApiKey { get; }
-
-		public string? Username { get; }
-		public string? Password { get; }
-
-		public ITransport<ITransportConfiguration>? Transport { get; set; }
-
 		public ShipTo() => ConnectionPool = ConnectionPoolType.SingleNode;
 
 		public ShipTo(ITransport<ITransportConfiguration> client) => Transport = client;
@@ -34,10 +23,10 @@ namespace Elastic.Ingest
 		public ShipTo(string cloudId, string apiKey)
 		{
 			if (string.IsNullOrEmpty(cloudId))
-				throw new ArgumentException("cloudId may not be null.", nameof(cloudId));
+				throw new ArgumentException("cloudId may not be null or empty.", nameof(cloudId));
 
 			if (string.IsNullOrEmpty(apiKey))
-				throw new ArgumentException("apiKey may not be null.", nameof(apiKey));
+				throw new ArgumentException("apiKey may not be null or empty.", nameof(apiKey));
 
 			CloudId = cloudId;
 			ApiKey = apiKey;
@@ -47,13 +36,13 @@ namespace Elastic.Ingest
 		public ShipTo(string cloudId, string username, string password)
 		{
 			if (string.IsNullOrEmpty(cloudId))
-				throw new ArgumentException("cloudId may not be null.", nameof(cloudId));
+				throw new ArgumentException("cloudId may not be null or empty.", nameof(cloudId));
 
 			if (string.IsNullOrEmpty(username))
-				throw new ArgumentException("username may not be null.", nameof(username));
+				throw new ArgumentException("username may not be null or empty.", nameof(username));
 
 			if (string.IsNullOrEmpty(password))
-				throw new ArgumentException("password may not be null.", nameof(password));
+				throw new ArgumentException("password may not be null or empty.", nameof(password));
 
 			CloudId = cloudId;
 			Username = username;
@@ -61,6 +50,14 @@ namespace Elastic.Ingest
 
 			ConnectionPool = ConnectionPoolType.Cloud;
 		}
+
+		public string? ApiKey { get; }
+		public string? CloudId { get; }
+		public ConnectionPoolType? ConnectionPool { get; }
+		public IEnumerable<Uri>? NodeUris { get; }
+		public string? Password { get; }
+		public ITransport<ITransportConfiguration>? Transport { get; set; }
+		public string? Username { get; }
 
 		public IConnectionPool? CreateConnectionPool()
 		{
@@ -85,9 +82,8 @@ namespace Elastic.Ingest
 					var basicAuthCredentials = new BasicAuthentication(Username, Password);
 					return new CloudConnectionPool(CloudId, basicAuthCredentials);
 				default:
-					return null;
+					throw new ArgumentException($"Unrecognised connection pool type '{ConnectionPool}' specified in the configuration.", nameof(ConnectionPool));
 			}
 		}
 	}
-
 }
