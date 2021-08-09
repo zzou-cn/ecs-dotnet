@@ -59,15 +59,15 @@ namespace Elastic.Ingest.Tests
 					RetryCallBack = (list) => Interlocked.Increment(ref _retries),
 					ExceptionCallback= (e) => LastException = e
 				};
-				ChannelOptions = new ElasticsearchChannelOptions<Base>(transport) { BufferOptions = BufferOptions };
-				Channel = new ElasticsearchChannel<Base>(ChannelOptions);
+				ChannelOptions = new IndexChannelOptions<Base>(transport) { BufferOptions = BufferOptions };
+				Channel = new IndexChannel<Base>(ChannelOptions);
 			}
 
-			public ElasticsearchChannel<Base> Channel { get; }
+			public IndexChannel<Base> Channel { get; }
 
 			public ITransport<ITransportConfiguration> Transport { get; }
 
-			public ElasticsearchChannelOptions<Base> ChannelOptions { get; }
+			public IndexChannelOptions<Base> ChannelOptions { get; }
 
 			public ElasticsearchBufferOptions<Base> BufferOptions { get; }
 
