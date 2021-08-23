@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Elastic.CommonSchema;
 using Elastic.Elasticsearch.Xunit;
 using Elastic.Elasticsearch.Xunit.XunitPlumbing;
-using Elastic.Ingest;
+using Elastic.Ingest.Transport;
+using Elasticsearch.Extensions.Logging.Options;
 using Elasticsearch.Net;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -86,7 +87,7 @@ namespace Elasticsearch.Extensions.Logging.IntegrationTests
 			var options = new ConfigureOptions<ElasticsearchLoggerOptions>(
 				o =>
 				{
-					o.Index = $"{pre}-{{0:yyyy.MM.dd}}";
+					o.Index = new IndexNameOptions { Format = $"{pre}-{{0:yyyy.MM.dd}}" };
 					var nodes = Client.ConnectionSettings.ConnectionPool.Nodes.Select(n => n.Uri).ToArray();
 					o.ShipTo = new ShipToOptions() { NodeUris = nodes, ConnectionPoolType = ConnectionPoolType.Static };
 				});
