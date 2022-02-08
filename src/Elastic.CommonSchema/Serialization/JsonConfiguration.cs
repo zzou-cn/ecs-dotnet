@@ -9,9 +9,9 @@ using System.Text.Json.Serialization;
 
 namespace Elastic.CommonSchema.Serialization
 {
-	internal static class JsonConfiguration
+	public static class JsonConfiguration
 	{
-		internal static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions
+		public static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions
 		{
 			IgnoreNullValues = true,
 			Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
